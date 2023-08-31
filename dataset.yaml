@@ -1,0 +1,23 @@
+## This file is used to define two datasets (one physical hive table) and another logical events schema and its downstreams.
+- id: clicks
+  platform: hive
+  subtype: table
+  schema:
+    file: click_event.avsc
+  properties:
+    retention: 365
+- id: ClickEvent
+  platform: events
+  subtype: schema
+  description: |
+    This is a sample event that is generated when a user clicks on a link.
+    Do not use this event for any purpose other than testing.
+  properties:
+    project_name: Tracking
+    namespace: org.acryl.tracking
+    version: 1.0.0
+    retention: 30
+  schema:
+    file: click_event.avsc
+  downstreams:
+    - urn:li:dataset:(urn:li:dataPlatform:hive,clicks,PROD)
